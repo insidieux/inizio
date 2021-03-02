@@ -3,12 +3,10 @@ name: Push
 on:
   push:
     branches:
-      - '*'
-    paths-ignore:
-      - '**.md'
+      - master
   pull_request:
-    paths-ignore:
-      - '**.md'
+    branches:
+      - master
 
 jobs:
   test:
@@ -29,3 +27,8 @@ jobs:
         run: make test
       - name: Lint
         run: make lint
+      - name: Send code coverage report
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage.out
