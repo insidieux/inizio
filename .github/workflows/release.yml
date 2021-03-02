@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        goos:
+          - darwin
+          - linux
+          - windows
+        goarch:
+          - amd64
+      max-parallel: 3
+      fail-fast: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get tag reference
+        id: get-tag-reference
+        uses: ankitvgupta/ref-to-tag-action@master
+        with:
+          ref: ${{ github.ref }}
+          head_ref: ${{ github.head_ref }}
+      - name: Cleanup
+        run: make cleanup
+      - name: Generate packr box
+        run: make packr
+      - name: Generate wire
+        run: make wire
+      - name: Vendor
+        run: make vendor
+      - name: Build
+        run: make build GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }}
+      - name: Tar artifact
+        run: tar -zcvf inizio-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz -C bin inizio
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: inizio-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+          asset_name: inizio-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+          tag: ${{ steps.get-tag-reference.outputs.tag }}
+          release_name: Inizio ${{ steps.get-tag-reference.outputs.tag }}

@@ -1,0 +1,31 @@
+name: Push
+
+on:
+  push:
+    branches:
+      - '*'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cleanup
+        run: make cleanup
+      - name: Generate packr box
+        run: make packr
+      - name: Generate wire
+        run: make wire
+      - name: Vendor
+        run: make vendor
+      - name: Test
+        run: make test
+      - name: Lint
+        run: make lint

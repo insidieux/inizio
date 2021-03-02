@@ -1,0 +1,16 @@
+# An example config with full definition of plugin executable arguments, flags and environment
+# Important notes:
+# 1. Each env.Name will be processed by uppercase
+# 2. Each env.Value will be passed to envsubst process (substitutes environment variables in shell format strings)
+# 3. Each flags.Value will be passed to envsubst process (substitutes environment variables in shell format strings)
+#- name: plugin-name
+#  env:
+#    - name: ENV_VARIABLE
+#      value: "${INIZIO_ENV_VARIABLE}"
+#  flags:
+#    - name: some.flag
+#      value: "${INIZIO_ENV_VARIABLE}"
+#  args:
+#    - first
+#    - second
+

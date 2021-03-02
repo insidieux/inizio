@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package generator.v1;
+
+option go_package = ".;protobuf";
+
+service Generator {
+  rpc Run(Run.Request) returns(Run.Response);
+}
+
+message Run {
+  message Request {
+    message Options {
+      bool override = 1;
+      string workingDirectory = 2;
+    }
+    message Values {
+      message Golang {
+        string module = 1;
+        string version = 2;
+      }
+      message Application {
+        string name = 1;
+        string description = 2;
+      }
+      Golang golang = 1;
+      Application application = 2;
+    }
+    Options options = 1;
+    Values values = 2;
+  }
+  message Response {
+    repeated string generated = 1;
+  }
+}

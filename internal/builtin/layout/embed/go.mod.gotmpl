@@ -1,0 +1,3 @@
+module {{ .Golang.Module }}
+
+{{ $version := semver (.Golang.Version | default "1.16") }}go {{ $version.Major }}.{{ $version.Minor }}

@@ -1,0 +1,24 @@
+# {{ .Application.Name }}
+
+{{ if .Application.Description }}## Description
+
+{{ .Application.Description }}
+
+{{ end }}## Usage
+
+```shell
+bin/{{ .Application.Name | lower }}
+```
+
+## Requirements
+
+* Docker
+* Make
+
+## Build
+
+Build {{ .Application.Name }} by running:
+
+```shell
+make build
+```
