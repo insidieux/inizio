@@ -2,7 +2,7 @@
 
 Golang project standard layout generator
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/insidieux/inizio/push)](https://github.com/insidieux/inizio/actions?query=workflow%3Apush)
+[![GitHub Workflow Status](https://github.com/insidieux/inizio/workflows/Push/badge.svg)](https://github.com/insidieux/inizio/actions/workflows/push.yml?query=branch%3Amaster+event%3Apush)
 [![Go Report Card](https://goreportcard.com/badge/github.com/insidieux/inizio)](https://goreportcard.com/report/github.com/insidieux/inizio)
 [![codecov](https://codecov.io/gh/insidieux/inizio/branch/master/graph/badge.svg?token=BI6HEMPLB1)](https://codecov.io/gh/insidieux/inizio/branch/master)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/insidieux/inizio)
