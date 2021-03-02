@@ -12,7 +12,7 @@ for your platform.
 Use the [Docker image](https://hub.docker.com/repository/docker/insidieux/inizio)
 
 ```shell
-docker pull insidieux/inizio:%version%
+docker pull insidieux/inizio:v1.0.0
 ```
 
 ### go get
