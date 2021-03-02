@@ -4,8 +4,7 @@ ARG GO_VERSION={{ .Golang.Version }}
 FROM golang:${GO_VERSION} as vendor
 COPY . /project
 WORKDIR /project
-RUN go mod tidy && \
-    go mod vendor
+RUN go mod tidy && go mod vendor && mkdir -p vendor
 
 ### Build binary
 FROM golang:${GO_VERSION} as build-binary
