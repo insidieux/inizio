@@ -44,7 +44,7 @@ inizio
 docker run
   -v ./:/projects
   -w /projects 
-  insidieux/inizio:latest
+  insidieux/inizio:v1.0.0
   /projects/working-directory
 ```
 
