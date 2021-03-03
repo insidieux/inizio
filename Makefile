@@ -163,7 +163,7 @@ protoc: $(shell find api/protobuf -type f -name "*.proto")
 					$${file}; \
 	done
 
-PHONY: mockery
+.PHONY: mockery
 mockery:
 ifndef MOCKERY_SOURCE_DIR
 	$(error MOCKERY_SOURCE_DIR is not set)
