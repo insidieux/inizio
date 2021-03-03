@@ -53,11 +53,11 @@ docker run
 ```shell
 --layout.cleanup                      cleanup working directory before generation
 --layout.template.dockerfile string   path to custom Dockerfile template (must have "gotmpl" extension)
---layout.template.makefile string     path to custom Makefile template (must have "gotmpl" extension)
---logger.level string                 log level (default "info")
---plugins.config string               path to plugins config yaml file
+--layout.template.makefile   string   path to custom Makefile template (must have "gotmpl" extension)
+--logger.level               string   log level (default "info")
+--plugins.config             string   path to plugins config yaml file
 --plugins.fail-fast                   stop after first plugin failure
---plugins.path string                 path to plugins directory (default "/usr/local/bin/inizio-plugins")
+--plugins.path               string   path to plugins directory (default "/usr/local/bin/inizio-plugins")
 ```
 
 ## Plugins config
