@@ -12,10 +12,10 @@ This project is easy can be extended, cause it also supports plugins for generat
 
 ## Installing
 
-Install Pinchy by running:
+Install `inizio` by running:
 
 ```shell
-go get github.com/insidieux/pinchy/cmd/inizio
+go get github.com/insidieux/inizio/cmd/inizio
 ```
 
 Ensure that `$GOPATH/bin` is added to your `$PATH`.
