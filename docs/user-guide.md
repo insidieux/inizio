@@ -20,7 +20,7 @@ docker pull insidieux/inizio:v1.0.0
 Alternatively, you can use the go get method:
 
 ```shell
-go get github.com/insidieux/pinchy/cmd/inizio
+go get github.com/insidieux/inizio/cmd/inizio
 ```
 
 Ensure that `GOPATH/bin` is added to your `PATH`.
