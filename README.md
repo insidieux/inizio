@@ -7,7 +7,8 @@ Golang project standard layout generator
 [![codecov](https://codecov.io/gh/insidieux/inizio/branch/master/graph/badge.svg?token=BI6HEMPLB1)](https://codecov.io/gh/insidieux/inizio/branch/master)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/insidieux/inizio)
 
-inizio is a simple binary, which allows generating/bootstrapping golang project with predefined layout. 
+`inizio` is a simple binary, which allows generating/bootstrapping golang project with [predefined layout](https://github.com/golang-standards/project-layout).
+
 This project is easy can be extended, cause it also supports plugins for generation, based on [go-plugin](https://github.com/hashicorp/go-plugin) package. 
 
 ## Installing
