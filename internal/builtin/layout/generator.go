@@ -107,23 +107,23 @@ func (g *Generator) prepareFilesList(options generator.RunOptions, values genera
 	var files = []file{
 		{
 			writePath: filepath.Join(options.WorkingDirectory, fileNameGoMod),
-			readPath:  fmt.Sprintf(`embed/%s.%s`, fileNameGoMod, Extension),
+			readPath:  fmt.Sprintf(`%s.%s`, fileNameGoMod, Extension),
 		},
 		{
 			writePath: filepath.Join(options.WorkingDirectory, subPathMainGo, strings.ToLower(values.Application.Name), fileNameMainGo),
-			readPath:  fmt.Sprintf(`embed/%s.%s`, fileNameMainGo, Extension),
+			readPath:  fmt.Sprintf(`%s.%s`, fileNameMainGo, Extension),
 		},
 		{
 			writePath: filepath.Join(options.WorkingDirectory, fileNameReadmeMD),
-			readPath:  fmt.Sprintf(`embed/%s.%s`, fileNameReadmeMD, Extension),
+			readPath:  fmt.Sprintf(`%s.%s`, fileNameReadmeMD, Extension),
 		},
 		{
 			writePath: filepath.Join(options.WorkingDirectory, fileNameDockerIgnore),
-			readPath:  fmt.Sprintf(`embed/%s.%s`, fileNameDockerIgnore, Extension),
+			readPath:  fmt.Sprintf(`%s.%s`, fileNameDockerIgnore, Extension),
 		},
 	}
 	// Makefile override
-	makefileTemplate := fmt.Sprintf(`embed/%s.%s`, fileNameMakefile, Extension)
+	makefileTemplate := fmt.Sprintf(`%s.%s`, fileNameMakefile, Extension)
 	if g.options.Templates.Makefile != nil {
 		makefileTemplate = *g.options.Templates.Makefile
 	}
@@ -132,7 +132,7 @@ func (g *Generator) prepareFilesList(options generator.RunOptions, values genera
 		readPath:  makefileTemplate,
 	})
 	// Dockerfile override
-	dockerfileTemplate := fmt.Sprintf(`embed/%s.%s`, fileNameDockerfile, Extension)
+	dockerfileTemplate := fmt.Sprintf(`%s.%s`, fileNameDockerfile, Extension)
 	if g.options.Templates.Dockerfile != nil {
 		dockerfileTemplate = *g.options.Templates.Dockerfile
 	}

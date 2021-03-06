@@ -25,7 +25,8 @@ type rendererTestSuite struct {
 func (s *rendererTestSuite) TestRenderBoxError() {
 	source := `/some/file`
 
-	renderer := NewRenderer(NewBox(), nil)
+	box, _ := NewBox()
+	renderer := NewRenderer(box, nil)
 
 	content, err := renderer.Render(source, generator.RunValues{})
 	s.Error(err)
