@@ -1,4 +1,5 @@
 ARG GO_VERSION=1.16
+ARG ALPINE_VERSION=3.12
 
 ### Packr
 FROM golang:${GO_VERSION} as packr
@@ -46,7 +47,7 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go build \
         /project/cmd/inizio
 
 ### Image
-FROM alpine:3.12 as image
+FROM alpine:${ALPINE_VERSION} as image
 COPY --from=build-binary /project/bin/inizio /usr/local/bin/inizio
 COPY configs/inizio/plugins.yaml /etc/inizio/plugins.yaml
 RUN chmod +x /usr/local/bin/inizio

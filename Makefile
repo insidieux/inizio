@@ -156,6 +156,7 @@ endif
 	@find ${PWD} -type f -name "mock_*_test.go" -delete
 	@docker build \
 		--build-arg GO_VERSION=${GO_VERSION} \
+		--build-arg MOCKERY_VERSION=${MOCKERY_VERSION} \
 		-f ${PWD}/build/docker/utils/mockery/Dockerfile \
 		-t mockery:${MOCKERY_VERSION} \
 			build/docker/utils/mockery
