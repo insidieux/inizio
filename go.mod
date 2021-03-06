@@ -9,8 +9,6 @@ require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
 	github.com/blang/semver/v4 v4.0.0
 	github.com/drone/envsubst v1.0.2
-	github.com/gobuffalo/packd v1.0.0
-	github.com/gobuffalo/packr/v2 v2.8.1
 	github.com/golang/protobuf v1.4.3
 	github.com/google/wire v0.5.0
 	github.com/hashicorp/go-hclog v0.15.0
