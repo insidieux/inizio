@@ -1,7 +1,10 @@
 override APP_NAME=inizio
 override GO_VERSION=1.16
 override PROTOC_VERSION=3.1.32
-override MOCKERY_VERSION=v2.4.0
+override MOCKERY_VERSION=v2.5.1
+override GOLANGCI_LINT_VERSION=v1.38.0
+override SECUREGO_GOSEC_VERSION=v2.7.0
+override HADOLINT_VERSION=v1.23.0
 
 GOOS?=$(shell go env GOOS || echo linux)
 GOARCH?=$(shell go env GOARCH || echo amd64)
@@ -16,7 +19,7 @@ $(error "Binary docker not found in $(PATH)")
 endif
 
 .PHONY: all
-all: cleanup packr wire vendor lint test build
+all: cleanup wire vendor lint test build
 
 # --- [ CI helpers ] ---------------------------------------------------------------------------------------------------
 
@@ -25,28 +28,7 @@ cleanup:
 	@rm ${PWD}/bin/${APP_NAME} || true
 	@rm ${PWD}/coverage.out || true
 	@find ${PWD} -type f -name "wire_gen.go" -delete
-	@find ${PWD} -type f -name "*packr.go" -delete
 	@rm -r ${PWD}/vendor || true
-
-.PHONY: packr
-packr:
-	@docker build \
-		--build-arg GO_VERSION=${GO_VERSION} \
-		-f ${PWD}/build/docker/utils/packr/Dockerfile \
-		-t packr:custom \
-			build/docker/utils/packr
-	@find ${PWD} -type f -name "*packr.go" -delete
-	@docker run --rm \
-		-v ${PWD}:/project \
-		-w /project/internal/builtin/layout \
-		packr:custom \
-			clean \
-			--verbose
-	@docker run --rm \
-		-v ${PWD}:/project \
-		-w /project/internal/builtin/layout \
-		packr:custom \
-			--verbose
 
 .PHONY: wire
 wire:
@@ -81,7 +63,7 @@ lint-golangci-lint:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
-		golangci/golangci-lint:v1.33.0 \
+		golangci/golangci-lint:${GOLANGCI_LINT_VERSION} \
 			golangci-lint run -v
 
 .PHONY: lint-golint
@@ -99,7 +81,7 @@ lint-gosec:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
-		securego/gosec:v2.5.0 \
+		securego/gosec:${SECUREGO_GOSEC_VERSION} \
 			/project/...
 
 .PHONY: lint-dockerfile
@@ -107,7 +89,7 @@ lint-dockerfile:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
-		hadolint/hadolint:v1.22.1 \
+		hadolint/hadolint:${HADOLINT_VERSION} \
 			hadolint \
 				/project/build/docker/cmd/inizio/Dockerfile
 
@@ -172,11 +154,17 @@ ifndef MOCKERY_INTERFACE
 	$(error MOCKERY_INTERFACE is not set)
 endif
 	@find ${PWD} -type f -name "mock_*_test.go" -delete
+	@docker build \
+		--build-arg GO_VERSION=${GO_VERSION} \
+		--build-arg MOCKERY_VERSION=${MOCKERY_VERSION} \
+		-f ${PWD}/build/docker/utils/mockery/Dockerfile \
+		-t mockery:${MOCKERY_VERSION} \
+			build/docker/utils/mockery
 	@docker run \
 		--rm \
 		-v ${PWD}:/project \
 		-w /project \
-		vektra/mockery:${MOCKERY_VERSION} \
+		mockery:${MOCKERY_VERSION} \
 			--testonly \
 			--inpackage \
 			--case snake \

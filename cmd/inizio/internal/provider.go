@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/Masterminds/sprig"
-	"github.com/gobuffalo/packd"
 	"github.com/hashicorp/go-plugin"
 	"github.com/insidieux/inizio/internal/builtin/layout"
 	"github.com/insidieux/inizio/internal/logger"
@@ -54,14 +53,6 @@ func provideLogger(level logrus.Level) logrus.FieldLogger {
 	log := logger.GetLogger()
 	log.(*logrus.Logger).SetLevel(level)
 	return log
-}
-
-func provideBox() (packd.Box, error) {
-	box := layout.NewBox()
-	if len(box.List()) == 0 {
-		return nil, errors.New(`failed to get built-in templates`)
-	}
-	return box, nil
 }
 
 func provideTemplate() layout.TemplateInterface {
