@@ -25,12 +25,14 @@ type rendererTestSuite struct {
 func (s *rendererTestSuite) TestRenderBoxError() {
 	source := `/some/file`
 
-	box, _ := NewBox()
-	renderer := NewRenderer(box, nil)
+	mockedBox := new(mockBoxInterface)
+	mockedBox.On(`ReadFile`, source).Return(nil, errors.New(`expected error`))
+
+	renderer := NewRenderer(mockedBox, nil)
 
 	content, err := renderer.Render(source, generator.RunValues{})
 	s.Error(err)
-	s.Regexp(regexp.MustCompile(`^failed to get source file "/some/file" content: open /some/file: file does not exist`), err)
+	s.Regexp(regexp.MustCompile(`^failed to get source file "/some/file" content: expected error`), err)
 	s.Nil(content)
 }
 
@@ -38,7 +40,7 @@ func (s *rendererTestSuite) TestRenderTemplateParseError() {
 	source := `/some/file`
 	content := `Some text`
 
-	mockedBox := new(mockBox)
+	mockedBox := new(mockBoxInterface)
 	mockedBox.On(`ReadFile`, source).Return([]byte(content), nil)
 
 	mockedTemplate := new(mockTemplateInterface)
@@ -56,7 +58,7 @@ func (s *rendererTestSuite) TestRenderTemplateExecuteError() {
 	source := `/some/file`
 	content := `Some text`
 
-	mockedBox := new(mockBox)
+	mockedBox := new(mockBoxInterface)
 	mockedBox.On(`ReadFile`, source).Return([]byte(content), nil)
 
 	template := NewTemplate(`embed`, nil)
@@ -75,7 +77,7 @@ func (s *rendererTestSuite) TestRenderTemplateExecuteError() {
 func (s *rendererTestSuite) TestRender() {
 	source := `/some/file`
 
-	mockedBox := new(mockBox)
+	mockedBox := new(mockBoxInterface)
 	mockedBox.On(`ReadFile`, source).Return([]byte(`This is {{ .Application.Name }} application`), nil)
 
 	template := NewTemplate(`embed`, sprig.TxtFuncMap())

@@ -23,7 +23,11 @@ func newCore(context.Context, *pflag.FlagSet) (*core, func(), error) {
 		),
 		wire.NewSet(
 			wire.NewSet(
-				layout.NewBox,
+				wire.NewSet(
+					wire.Value(layout.BoxDirectory(layout.EmbedDirectory)),
+					layout.ProvideEmbedFS,
+					layout.NewBox,
+				),
 				provideTemplate,
 				layout.NewRenderer,
 			),

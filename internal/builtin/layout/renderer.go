@@ -3,7 +3,6 @@ package layout
 import (
 	"bytes"
 	"io"
-	"io/fs"
 	"text/template"
 
 	"github.com/insidieux/inizio/pkg/sdk/generator"
@@ -22,9 +21,9 @@ type (
 		Execute(io.Writer, interface{}) error
 	}
 
-	// Renderer is built-in RendererInterface implementation
+	// Renderer is built-in RendererInterface implementation.
 	Renderer struct {
-		box      fs.ReadFileFS
+		box      BoxInterface
 		template TemplateInterface
 	}
 )
@@ -33,7 +32,7 @@ var (
 	_ RendererInterface = &Renderer{}
 )
 
-// NewTemplate return built-in go *template.Template
+// NewTemplate return built-in go *template.Template.
 func NewTemplate(name string, funcMap template.FuncMap) *template.Template {
 	t := template.New(name)
 	if funcMap != nil {
@@ -42,21 +41,23 @@ func NewTemplate(name string, funcMap template.FuncMap) *template.Template {
 	return t
 }
 
-// NewRenderer return implementation of RendererInterface
-func NewRenderer(box fs.ReadFileFS, ti TemplateInterface) RendererInterface {
+// NewRenderer return implementation of RendererInterface.
+func NewRenderer(box BoxInterface, ti TemplateInterface) RendererInterface {
 	return &Renderer{
 		box:      box,
 		template: ti,
 	}
 }
 
-// Render implements RendererInterface
-// Steps for render:
-// - try to find template in embed box or resolve in in os filesystem
-// - open file
-// - get template file content
-// - parse template file content
-// - execute template
+/*
+Render implements RendererInterface
+Steps for render:
+- try to find template in embed box or resolve in in os filesystem
+- open file
+- get template file content
+- parse template file content
+- execute template
+*/
 func (r *Renderer) Render(source string, values generator.RunValues) ([]byte, error) {
 	content, err := r.box.ReadFile(source)
 	if err != nil {
