@@ -3,9 +3,9 @@ package layout
 import (
 	"bytes"
 	"io"
+	"io/fs"
 	"text/template"
 
-	"github.com/gobuffalo/packd"
 	"github.com/insidieux/inizio/pkg/sdk/generator"
 	"github.com/pkg/errors"
 )
@@ -24,7 +24,7 @@ type (
 
 	// Renderer is built-in RendererInterface implementation
 	Renderer struct {
-		box      packd.Box
+		box      fs.ReadFileFS
 		template TemplateInterface
 	}
 )
@@ -43,7 +43,7 @@ func NewTemplate(name string, funcMap template.FuncMap) *template.Template {
 }
 
 // NewRenderer return implementation of RendererInterface
-func NewRenderer(box packd.Box, ti TemplateInterface) RendererInterface {
+func NewRenderer(box fs.ReadFileFS, ti TemplateInterface) RendererInterface {
 	return &Renderer{
 		box:      box,
 		template: ti,
@@ -58,11 +58,11 @@ func NewRenderer(box packd.Box, ti TemplateInterface) RendererInterface {
 // - parse template file content
 // - execute template
 func (r *Renderer) Render(source string, values generator.RunValues) ([]byte, error) {
-	contents, err := r.box.Find(source)
+	content, err := r.box.ReadFile(source)
 	if err != nil {
 		return nil, errors.Wrapf(err, `failed to get source file "%s" content`, source)
 	}
-	t, err := r.template.Parse(string(contents))
+	t, err := r.template.Parse(string(content))
 	if err != nil {
 		return nil, errors.Wrapf(err, `failed to parse source file "%s"`, source)
 	}

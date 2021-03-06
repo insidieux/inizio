@@ -1,8 +1,8 @@
 package layout
 
 import (
-	"github.com/gobuffalo/packd"
-	"github.com/gobuffalo/packr/v2"
+	"embed"
+	"io/fs"
 )
 
 const (
@@ -17,7 +17,10 @@ const (
 	fileNameDockerIgnore = ".dockerignore"
 )
 
-// NewBox return packd.Box, which contains embed built-in template files
-func NewBox() packd.Box {
-	return packr.New("templates", "./embed")
+//go:embed embed/*
+var filesystem embed.FS
+
+// NewBox return embed.FS, which contains embed built-in template files
+func NewBox() fs.ReadFileFS {
+	return filesystem
 }

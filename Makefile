@@ -16,7 +16,7 @@ $(error "Binary docker not found in $(PATH)")
 endif
 
 .PHONY: all
-all: cleanup packr wire vendor lint test build
+all: cleanup wire vendor lint test build
 
 # --- [ CI helpers ] ---------------------------------------------------------------------------------------------------
 
@@ -25,28 +25,7 @@ cleanup:
 	@rm ${PWD}/bin/${APP_NAME} || true
 	@rm ${PWD}/coverage.out || true
 	@find ${PWD} -type f -name "wire_gen.go" -delete
-	@find ${PWD} -type f -name "*packr.go" -delete
 	@rm -r ${PWD}/vendor || true
-
-.PHONY: packr
-packr:
-	@docker build \
-		--build-arg GO_VERSION=${GO_VERSION} \
-		-f ${PWD}/build/docker/utils/packr/Dockerfile \
-		-t packr:custom \
-			build/docker/utils/packr
-	@find ${PWD} -type f -name "*packr.go" -delete
-	@docker run --rm \
-		-v ${PWD}:/project \
-		-w /project/internal/builtin/layout \
-		packr:custom \
-			clean \
-			--verbose
-	@docker run --rm \
-		-v ${PWD}:/project \
-		-w /project/internal/builtin/layout \
-		packr:custom \
-			--verbose
 
 .PHONY: wire
 wire:
@@ -172,11 +151,16 @@ ifndef MOCKERY_INTERFACE
 	$(error MOCKERY_INTERFACE is not set)
 endif
 	@find ${PWD} -type f -name "mock_*_test.go" -delete
+	@docker build \
+		--build-arg GO_VERSION=${GO_VERSION} \
+		-f ${PWD}/build/docker/utils/mockery/Dockerfile \
+		-t mockery:${MOCKERY_VERSION}-custom \
+			build/docker/utils/mockery
 	@docker run \
 		--rm \
 		-v ${PWD}:/project \
 		-w /project \
-		vektra/mockery:${MOCKERY_VERSION} \
+		mockery:${MOCKERY_VERSION}-custom \
 			--testonly \
 			--inpackage \
 			--case snake \

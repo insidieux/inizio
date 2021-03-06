@@ -30,8 +30,6 @@ jobs:
           head_ref: ${{ github.head_ref }}
       - name: Cleanup
         run: make cleanup
-      - name: Generate packr box
-        run: make packr
       - name: Generate wire
         run: make wire
       - name: Vendor
