@@ -1,7 +1,10 @@
 override APP_NAME=inizio
 override GO_VERSION=1.16
 override PROTOC_VERSION=3.1.32
-override MOCKERY_VERSION=v2.4.0
+override MOCKERY_VERSION=v2.5.1
+override GOLANGCI_LINT_VERSION=v1.38.0
+override SECUREGO_GOSEC_VERSION=v2.7.0
+override HADOLINT_VERSION=v1.23.0
 
 GOOS?=$(shell go env GOOS || echo linux)
 GOARCH?=$(shell go env GOARCH || echo amd64)
@@ -60,7 +63,7 @@ lint-golangci-lint:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
-		golangci/golangci-lint:v1.33.0 \
+		golangci/golangci-lint:${GOLANGCI_LINT_VERSION} \
 			golangci-lint run -v
 
 .PHONY: lint-golint
@@ -78,7 +81,7 @@ lint-gosec:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
-		securego/gosec:v2.5.0 \
+		securego/gosec:${SECUREGO_GOSEC_VERSION} \
 			/project/...
 
 .PHONY: lint-dockerfile
@@ -86,7 +89,7 @@ lint-dockerfile:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
-		hadolint/hadolint:v1.22.1 \
+		hadolint/hadolint:${HADOLINT_VERSION} \
 			hadolint \
 				/project/build/docker/cmd/inizio/Dockerfile
 
@@ -154,13 +157,13 @@ endif
 	@docker build \
 		--build-arg GO_VERSION=${GO_VERSION} \
 		-f ${PWD}/build/docker/utils/mockery/Dockerfile \
-		-t mockery:${MOCKERY_VERSION}-custom \
+		-t mockery:${MOCKERY_VERSION} \
 			build/docker/utils/mockery
 	@docker run \
 		--rm \
 		-v ${PWD}:/project \
 		-w /project \
-		mockery:${MOCKERY_VERSION}-custom \
+		mockery:${MOCKERY_VERSION} \
 			--testonly \
 			--inpackage \
 			--case snake \
