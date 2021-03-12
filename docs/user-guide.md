@@ -44,8 +44,9 @@ Path to project can be absolute or relative to current working directory.
 
 ```shell
 docker run \
-  -it \
   --rm \
+  --user=$(id -u):$(id -g) \
+  -it \
   -v $(pwd):/project \
   -w /project \
     insidieux/inizio:v1.1.0 \
