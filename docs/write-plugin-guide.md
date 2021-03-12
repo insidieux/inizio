@@ -7,20 +7,9 @@ inizio /path/to/project/directory
 cd /path/to/project/directory
 ```
 
-## Get dependency
-
-```shell
-go get github.com/insidieux/inizio/pkg/sdk/generator
-go get github.com/insidieux/inizio/pkg/sdk/plugin
-```
-
-or 
-
-```shell
-make vendor
-```
-
 ## Write generator
+
+To write new generator plugin, you must implement `generator.Generator` interface in your code and call predefined `plugin.Serve` with written implementation.
 
 ```go
 package main
@@ -49,13 +38,26 @@ func main() {
 }
 ```
 
+## Get dependency
+
+```shell
+go get github.com/insidieux/inizio/pkg/sdk/generator
+go get github.com/insidieux/inizio/pkg/sdk/plugin
+```
+
+or
+
+```shell
+make vendor
+```
+
 ## Build
 
 ```shell
-go build
-  -mod vendor
-  -o /project/bin/your-plugin-name
-  -v /project/cmd/your-plugin-name
+go build \
+  -mod vendor \
+  -o /path/to/project/directory/bin/your-plugin-name \
+  -v /path/to/project/directory/cmd/your-plugin-name
 ```
 
 or 
