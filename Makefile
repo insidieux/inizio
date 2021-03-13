@@ -5,6 +5,7 @@ override MOCKERY_VERSION=v2.5.1
 override GOLANGCI_LINT_VERSION=v1.38.0
 override SECUREGO_GOSEC_VERSION=v2.7.0
 override HADOLINT_VERSION=v1.23.0
+override CHANGELOG_GENERATOR_VERSION=1.15.2
 
 GOOS?=$(shell go env GOOS || echo linux)
 GOARCH?=$(shell go env GOARCH || echo amd64)
@@ -186,3 +187,13 @@ endif
 		-f ${PWD}/build/docker/cmd/inizio/Dockerfile \
 		-t ${DOCKER_IMAGE}:${DOCKER_TAG} \
 			.
+
+.PHONY: generate-changelog
+generate-changelog:
+	@docker run --rm \
+		-v ${PWD}:/project \
+		-w /project \
+		ferrarimarco/github-changelog-generator:${CHANGELOG_GENERATOR_VERSION} \
+			--user insidieux \
+			--project inizio \
+			--no-unreleased
