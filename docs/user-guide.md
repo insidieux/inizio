@@ -12,7 +12,7 @@ for your platform.
 Use the [Docker image](https://hub.docker.com/repository/docker/insidieux/inizio)
 
 ```shell
-docker pull insidieux/inizio:v1.0.0
+docker pull insidieux/inizio:v1.1.0
 ```
 
 ### go get
@@ -23,7 +23,7 @@ Alternatively, you can use the go get method:
 go get github.com/insidieux/inizio/cmd/inizio
 ```
 
-Ensure that `GOPATH/bin` is added to your `PATH`.
+Ensure that `$GOPATH/bin` is added to your `$PATH`.
 
 ## Usage
 
@@ -32,21 +32,28 @@ Example config for running binary you can find [here](./../configs/inizio/plugin
 ### Binary
 
 ```shell
-inizio 
-  --plugins.config /etc/inizio/plugins.yaml
-  --plugins.path /usr/local/bin/inizio-plugins
-  ./working-directory
+inizio \
+  --plugins.config /etc/inizio/plugins.yaml \
+  --plugins.path /usr/local/bin/inizio-plugins \
+    path-to-project
 ```
+
+Path to project can be absolute or relative to current working directory.
 
 ### Docker
 
 ```shell
-docker run
-  -v ./:/projects
-  -w /projects 
-  insidieux/inizio:v1.0.0
-  /projects/working-directory
+docker run \
+  --rm \
+  --user=$(id -u):$(id -g) \
+  -it \
+  -v $(pwd):/project \
+  -w /project \
+    insidieux/inizio:v1.1.0 \
+      path-to-project
 ```
+
+Path to project can be absolute or relative to `/project` directory in container.
 
 ## Command flags
 
