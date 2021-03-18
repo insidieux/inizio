@@ -19,6 +19,19 @@ Install `inizio` by running:
 go get github.com/insidieux/inizio/cmd/inizio
 ```
 
+## Usage
+
+```shell
+inizio \
+  --plugins.config /etc/inizio/plugins.yaml \
+  --plugins.path /usr/local/bin/inizio-plugins \
+    path-to-project
+```
+
+## Example
+
+![](./docs/inizio.gif)
+
 Ensure that `$GOPATH/bin` is added to your `$PATH`.
 
 ## Documentation
