@@ -1,7 +1,7 @@
 override APP_NAME=inizio
 override GO_VERSION=1.16
 override PROTOC_VERSION=3.1.32
-override MOCKERY_VERSION=v2.5.1
+override MOCKERY_VERSION=v2.7.1
 override GOLANGCI_LINT_VERSION=v1.38.0
 override SECUREGO_GOSEC_VERSION=v2.7.0
 override HADOLINT_VERSION=v1.23.0
@@ -155,17 +155,11 @@ ifndef MOCKERY_INTERFACE
 	$(error MOCKERY_INTERFACE is not set)
 endif
 	@find ${PWD} -type f -name "mock_*_test.go" -delete
-	@docker build \
-		--build-arg GO_VERSION=${GO_VERSION} \
-		--build-arg MOCKERY_VERSION=${MOCKERY_VERSION} \
-		-f ${PWD}/build/docker/utils/mockery/Dockerfile \
-		-t mockery:${MOCKERY_VERSION} \
-			build/docker/utils/mockery
 	@docker run \
 		--rm \
 		-v ${PWD}:/project \
 		-w /project \
-		mockery:${MOCKERY_VERSION} \
+		vektra/mockery:${MOCKERY_VERSION} \
 			--testonly \
 			--inpackage \
 			--case snake \
