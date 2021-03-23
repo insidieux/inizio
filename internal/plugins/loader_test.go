@@ -72,6 +72,7 @@ func (s *loaderTestSuite) TestLoad() {
 
 	filesystem := afero.NewMemMapFs()
 	_ = filesystem.MkdirAll(`/path`, 0755)
+	_ = filesystem.MkdirAll(`/path/dir`, 0755)
 	_, _ = filesystem.Create(`/path/inizio-plugin-first`)
 	_, _ = filesystem.Create(`/path/inizio-plugin-second`)
 
