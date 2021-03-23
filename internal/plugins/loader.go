@@ -46,10 +46,11 @@ func (l *Loader) Load(ctx context.Context, path string) ([]ClientInterface, erro
 
 	clients := make([]ClientInterface, 0)
 	for _, item := range list {
-		var (
-			parts = nameRegexp.FindStringSubmatch(item.Name())
-			name  = parts[1]
-		)
+		parts := nameRegexp.FindStringSubmatch(item.Name())
+		if len(parts) < 2 {
+			continue
+		}
+		name := parts[1]
 		cfg, err := l.config.Lookup(name)
 		if err != nil {
 			cfg = newPluginConfig(name)
