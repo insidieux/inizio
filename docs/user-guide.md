@@ -12,7 +12,7 @@ for your platform.
 Use the [Docker image](https://hub.docker.com/repository/docker/insidieux/inizio)
 
 ```shell
-docker pull insidieux/inizio:v1.1.0
+docker pull insidieux/inizio:v1.1.2
 ```
 
 ### go get
@@ -49,7 +49,7 @@ docker run \
   -it \
   -v $(pwd):/project \
   -w /project \
-    insidieux/inizio:v1.1.0 \
+    insidieux/inizio:v1.1.2 \
       path-to-project
 ```
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.1.2](https://github.com/insidieux/inizio/tree/v1.1.2) (2021-04-19)
+
+[Full Changelog](https://github.com/insidieux/inizio/compare/v1.1.1...v1.1.2)
+
+**Merged pull requests:**
+
+- Fix issue \#15: cannot get inizio cmd via go get [\#16](https://github.com/insidieux/inizio/pull/16) ([insidieux](https://github.com/insidieux))
+- Add project CHANGELOG.md [\#14](https://github.com/insidieux/inizio/pull/14) ([insidieux](https://github.com/insidieux))
+
 ## [v1.1.1](https://github.com/insidieux/inizio/tree/v1.1.1) (2021-03-23)
 
 [Full Changelog](https://github.com/insidieux/inizio/compare/v1.1.0...v1.1.1)

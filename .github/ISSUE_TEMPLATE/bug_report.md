@@ -24,7 +24,7 @@ A clear and concise description of what you expected to happen.
 
 **Environment:**
 
- - Version: [e.g. v1.0.0]
+ - Version: [e.g. v1.1.2]
  - GOOS: [e.g. linux, darwin, windows]
 
 **Additional context**
