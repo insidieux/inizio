@@ -1,8 +1,8 @@
 override APP_NAME={{ .Application.Name | lower }}
 {{ $version := semver (.Golang.Version | default "1.16") }}override GO_VERSION={{ $version.Major }}.{{ $version.Minor }}
-override GOLANGCI_LINT_VERSION=v1.38.0
+override GOLANGCI_LINT_VERSION=v1.39.0
 override SECUREGO_GOSEC_VERSION=v2.7.0
-override HADOLINT_VERSION=v1.23.0
+override HADOLINT_VERSION=v2.2.0
 
 GOOS?=$(shell go env GOOS || echo linux)
 GOARCH?=$(shell go env GOARCH || echo amd64)

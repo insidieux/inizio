@@ -4,5 +4,3 @@
 
 /bin/*
 coverage.out
-wire_gen.go
-*packr.go
