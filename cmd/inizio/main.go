@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	ctx, _ := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
 	if err := internal.NewCommand().ExecuteContext(ctx); err != nil {
 		logger.GetLogger().Fatalf(`Failed to execute command: %s`, err.Error())
 	}

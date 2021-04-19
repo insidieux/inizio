@@ -1,10 +1,11 @@
 override APP_NAME=inizio
 override GO_VERSION=1.16
-override PROTOC_VERSION=3.1.32
-override MOCKERY_VERSION=v2.7.1
-override GOLANGCI_LINT_VERSION=v1.38.0
+override GOLANGCI_LINT_VERSION=v1.39.0
 override SECUREGO_GOSEC_VERSION=v2.7.0
-override HADOLINT_VERSION=v1.23.0
+override HADOLINT_VERSION=v2.2.0
+override WIRE_VERSION=v0.5.0
+override PROTOC_VERSION=3.1.33
+override MOCKERY_VERSION=v2.7.4
 override CHANGELOG_GENERATOR_VERSION=1.15.2
 
 GOOS?=$(shell go env GOOS || echo linux)
@@ -20,7 +21,7 @@ $(error "Binary docker not found in $(PATH)")
 endif
 
 .PHONY: all
-all: cleanup wire vendor lint test build
+all: cleanup vendor lint test build
 
 # --- [ CI helpers ] ---------------------------------------------------------------------------------------------------
 
@@ -28,22 +29,7 @@ all: cleanup wire vendor lint test build
 cleanup:
 	@rm ${PWD}/bin/${APP_NAME} || true
 	@rm ${PWD}/coverage.out || true
-	@find ${PWD} -type f -name "wire_gen.go" -delete
 	@rm -r ${PWD}/vendor || true
-
-.PHONY: wire
-wire:
-	@docker build \
-		--build-arg GO_VERSION=${GO_VERSION} \
-		-f ${PWD}/build/docker/utils/wire/Dockerfile \
-		-t wire:custom \
-			build/docker/utils/wire
-	@find ${PWD} -type f -name "wire_gen.go" -delete
-	@docker run --rm \
-		-v ${PWD}:/project \
-		-w /project \
-		wire:custom \
-			/project/...
 
 .PHONY: vendor
 vendor:
@@ -132,6 +118,21 @@ build:
 				-v /project/cmd/${APP_NAME}
 
 # --- [ Local helpers ] ------------------------------------------------------------------------------------------------
+
+.PHONY: wire
+wire:
+	@docker build \
+		--build-arg GO_VERSION=${GO_VERSION} \
+		--build-arg WIRE_VERSION=${WIRE_VERSION} \
+		-f ${PWD}/build/docker/utils/wire/Dockerfile \
+		-t wire:custom \
+			build/docker/utils/wire
+	@find ${PWD} -type f -name "wire_gen.go" -delete
+	@docker run --rm \
+		-v ${PWD}:/project \
+		-w /project \
+		wire:custom \
+			/project/...
 
 .PHONY: protoc
 protoc: $(shell find api/protobuf -type f -name "*.proto")
