@@ -6,6 +6,7 @@ Golang project standard layout generator
 [![Go Report Card](https://goreportcard.com/badge/github.com/insidieux/inizio)](https://goreportcard.com/report/github.com/insidieux/inizio)
 [![codecov](https://codecov.io/gh/insidieux/inizio/branch/master/graph/badge.svg?token=BI6HEMPLB1)](https://codecov.io/gh/insidieux/inizio/branch/master)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/insidieux/inizio)
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
 
 `inizio` is a simple binary, which allows generating/bootstrapping golang project with [predefined layout](https://github.com/golang-standards/project-layout).
 
