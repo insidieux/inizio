@@ -11,17 +11,17 @@ import (
 	"github.com/spf13/afero"
 )
 
-const (
-	pluginBinaryRegex = "^inizio-plugin-(.*)$"
-)
-
 type (
-	// Loader prepare slice of ClientInterface used by RegistryInterface
+	// Loader prepare slice of ClientInterface used by RegistryInterface.
 	Loader struct {
 		config     ConfigInterface
 		filesystem afero.Fs
 		logger     logrus.FieldLogger
 	}
+)
+
+const (
+	pluginBinaryRegex = "^inizio-plugin-(.*)$"
 )
 
 var (
@@ -37,7 +37,7 @@ func NewLoader(config ConfigInterface, filesystem afero.Fs, logger logrus.FieldL
 	}
 }
 
-// Load use passed ConfigInterface and afero.Fs for find all suitable plugin binaries in called path
+// Load use passed ConfigInterface and afero.Fs for find all suitable plugin binaries in called path.
 func (l *Loader) Load(ctx context.Context, path string) ([]ClientInterface, error) {
 	list, err := afero.ReadDir(l.filesystem, path)
 	if err != nil {

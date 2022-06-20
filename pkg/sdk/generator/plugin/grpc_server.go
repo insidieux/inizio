@@ -5,6 +5,7 @@ import (
 
 	"github.com/insidieux/inizio/pkg/api/protobuf"
 	"github.com/insidieux/inizio/pkg/sdk/generator"
+	"github.com/pkg/errors"
 )
 
 type (
@@ -21,7 +22,7 @@ var (
 func (s *gRPCServer) Run(ctx context.Context, request *protobuf.Run_Request) (*protobuf.Run_Response, error) {
 	result, err := s.downstream.Run(ctx, protoRunRequestToOptions(request), protoRunRequestToValues(request))
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, `failed to run downstream GRPC plugin request`)
 	}
 	return generatorRunResultToProto(result), nil
 }

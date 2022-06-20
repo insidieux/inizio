@@ -46,7 +46,11 @@ func provideLoggerLevel(v *viper.Viper) (logrus.Level, error) {
 	if level == `` {
 		level = logrus.InfoLevel.String()
 	}
-	return logrus.ParseLevel(level)
+	parsed, err := logrus.ParseLevel(level)
+	if err != nil {
+		return logrus.InfoLevel, errors.Wrap(err, `failed to parse looger level`)
+	}
+	return parsed, nil
 }
 
 func provideLogger(level logrus.Level) logrus.FieldLogger {
@@ -124,7 +128,11 @@ func provideRegistryClients(ctx context.Context, loader *plugins.Loader, path pl
 	if path == `` {
 		return nil, errors.New(`plugins path parameter is empty`)
 	}
-	return loader.Load(ctx, string(path))
+	items, err := loader.Load(ctx, string(path))
+	if err != nil {
+		return nil, errors.Wrap(err, `failed to load plugins`)
+	}
+	return items, nil
 }
 
 func provideRegistryFailFast(v *viper.Viper) registryFailFast {

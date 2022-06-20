@@ -29,7 +29,7 @@ func (c *client) Name() string {
 	return c.name
 }
 
-// Run create GRPC client, make dispense call to plugin via downstream and call downstream run method
+// Run create GRPC client, make dispense call to plugin via downstream and call downstream run method.
 func (c *client) Run(ctx context.Context, options generator.RunOptions, values generator.RunValues) (generator.RunResult, error) {
 	gen, err := c.downstream.Dispense()
 	if err != nil {

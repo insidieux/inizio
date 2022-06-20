@@ -10,19 +10,19 @@ import (
 	"google.golang.org/grpc"
 )
 
+type (
+	gRPCPlugin struct {
+		pluginSDK.NetRPCUnsupportedPlugin
+		generator generator.Generator
+	}
+)
+
 const (
 	pluginVersion = 1
 	pluginID      = `generator`
 
 	magicCookieKey   = `INIZIO_GENERATOR_PLUGIN`
 	magicCookieValue = `c7f8f3fff5841c03cc871e3606c9cfdc` // DO NOT CHANGE THIS VALUE
-)
-
-type (
-	gRPCPlugin struct {
-		pluginSDK.NetRPCUnsupportedPlugin
-		generator generator.Generator
-	}
 )
 
 var (

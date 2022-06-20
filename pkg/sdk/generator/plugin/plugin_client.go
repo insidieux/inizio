@@ -24,7 +24,7 @@ type (
 	}
 )
 
-// NewClient make GRPC client to plugin implementation
+// NewClient make GRPC client to plugin implementation.
 func NewClient(cmd *exec.Cmd) ClientInterface {
 	return &client{
 		downstream: pluginSDK.NewClient(&pluginSDK.ClientConfig{
@@ -47,7 +47,7 @@ func NewClient(cmd *exec.Cmd) ClientInterface {
 	}
 }
 
-// Dispense create GRPC client, make dispense call to plugin and return gRPCClient/generator.Generator implementation
+// Dispense create GRPC client, make dispense call to plugin and return gRPCClient/generator.Generator implementation.
 func (c *client) Dispense() (generator.Generator, error) {
 	// Connect via RPC
 	rpc, err := c.downstream.Client()

@@ -1,7 +1,9 @@
-ARG GO_VERSION=1.16
-
-### Image
+ARG GO_VERSION=1.18
 FROM golang:${GO_VERSION}
-ARG WIRE_VERSION=v0.5.0
-RUN go get -u -t github.com/google/wire/cmd/wire@${WIRE_VERSION}
+
+RUN go install github.com/google/wire/cmd/wire@v0.5.0
+
+ENV GO111MODULE=on
+ENV GOFLAGS="-mod=vendor"
+
 ENTRYPOINT ["/go/bin/wire"]

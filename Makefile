@@ -1,11 +1,11 @@
 override APP_NAME=inizio
-override GO_VERSION=1.16
-override GOLANGCI_LINT_VERSION=v1.39.0
-override SECUREGO_GOSEC_VERSION=v2.7.0
-override HADOLINT_VERSION=v2.2.0
+override GO_VERSION=1.18
+override GOLANGCI_LINT_VERSION=v1.46.2
+override SECUREGO_GOSEC_VERSION=2.12.0
+override HADOLINT_VERSION=v2.10.0
 override WIRE_VERSION=v0.5.0
-override PROTOC_VERSION=3.1.33
-override MOCKERY_VERSION=v2.7.4
+override PROTOC_VERSION=3.3.0
+override MOCKERY_VERSION=v2.13.1
 override CHANGELOG_GENERATOR_VERSION=1.15.2
 
 GOOS?=$(shell go env GOOS || echo linux)
@@ -31,14 +31,16 @@ cleanup:
 	@rm ${PWD}/coverage.out || true
 	@rm -r ${PWD}/vendor || true
 
-.PHONY: vendor
-vendor:
-	@rm -r ${PWD}/vendor || true
+.PHONY: tidy
+tidy:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
 		golang:${GO_VERSION} \
 			go mod tidy
+
+.PHONY: vendor
+vendor:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
@@ -52,16 +54,6 @@ lint-golangci-lint:
 		-w /project \
 		golangci/golangci-lint:${GOLANGCI_LINT_VERSION} \
 			golangci-lint run -v
-
-.PHONY: lint-golint
-lint-golint:
-	@docker run --rm \
-		-v ${PWD}:/project \
-		cytopia/golint \
-			--set_exit_status \
-			/project/cmd/...\
-			/project/internal/...\
-			/project/pkg/...
 
 .PHONY: lint-gosec
 lint-gosec:
@@ -83,7 +75,6 @@ lint-dockerfile:
 .PHONY: lint
 lint:
 	@make lint-golangci-lint
-	@make lint-golint
 	@make lint-gosec
 	@make lint-dockerfile
 
@@ -141,9 +132,12 @@ protoc: $(shell find api/protobuf -type f -name "*.proto")
 		docker run --rm \
 			-v ${PWD}:/project \
 			-w /project \
-			thethingsindustries/protoc:${PROTOC_VERSION} \
+			rvolosatovs/protoc:${PROTOC_VERSION} \
 				--proto_path /project \
-				--go_out=paths=source_relative,plugins=grpc:/project/pkg \
+				--go_out /project/pkg \
+				--go_opt=paths=source_relative \
+				--go-grpc_out=/project/pkg \
+				--go-grpc_opt=paths=source_relative \
 					$${file}; \
 	done
 

@@ -121,6 +121,10 @@ func (g *Generator) prepareFilesList(options generator.RunOptions, values genera
 			writePath: filepath.Join(options.WorkingDirectory, fileNameDockerIgnore),
 			readPath:  fmt.Sprintf(`%s.%s`, fileNameDockerIgnore, Extension),
 		},
+		{
+			writePath: filepath.Join(options.WorkingDirectory, fileNameGolangCI),
+			readPath:  fileNameGolangCI,
+		},
 	}
 	// Makefile override
 	makefileTemplate := fmt.Sprintf(`%s.%s`, fileNameMakefile, Extension)

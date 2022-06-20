@@ -25,7 +25,7 @@ type (
 	}
 )
 
-// MakeRunOptions cast itself to generator.RunOptions
+// MakeRunOptions cast itself to generator.RunOptions.
 func (a *answers) MakeRunOptions() generator.RunOptions {
 	return generator.RunOptions{
 		Override:         a.Override,
@@ -33,7 +33,7 @@ func (a *answers) MakeRunOptions() generator.RunOptions {
 	}
 }
 
-// MakeRunValues cast itself to generator.RunValues, which will be used in generation process
+// MakeRunValues cast itself to generator.RunValues, which will be used in generation process.
 func (a *answers) MakeRunValues() generator.RunValues {
 	return generator.RunValues{
 		Application: generator.RunValuesApplication{
