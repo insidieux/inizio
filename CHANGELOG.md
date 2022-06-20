@@ -1,5 +1,19 @@
 # Changelog
 
+## [v1.1.3](https://github.com/insidieux/inizio/tree/v1.1.3) (2022-06-20)
+
+[Full Changelog](https://github.com/insidieux/inizio/compare/v1.1.2...v1.1.3)
+
+**Fixed bugs:**
+
+- Remove golint from Makefile [\#18](https://github.com/insidieux/inizio/issues/18)
+- command.go:30:23: undefined: newCore [\#15](https://github.com/insidieux/inizio/issues/15)
+
+**Merged pull requests:**
+
+- Fix issue \#18 [\#19](https://github.com/insidieux/inizio/pull/19) ([insidieux](https://github.com/insidieux))
+- Update docs [\#17](https://github.com/insidieux/inizio/pull/17) ([insidieux](https://github.com/insidieux))
+
 ## [v1.1.2](https://github.com/insidieux/inizio/tree/v1.1.2) (2021-04-19)
 
 [Full Changelog](https://github.com/insidieux/inizio/compare/v1.1.1...v1.1.2)

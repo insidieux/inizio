@@ -15,6 +15,7 @@ CGO_ENABLED?=0
 DOCKER_REGISTRY?=docker.io
 DOCKER_IMAGE?=${DOCKER_REGISTRY}/insidieux/${APP_NAME}
 DOCKER_TAG?=latest
+CHANGELOG_GITHUB_TOKEN?=
 
 ifeq (, $(shell which docker))
 $(error "Binary docker not found in $(PATH)")
@@ -182,6 +183,7 @@ generate-changelog:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
+		-e CHANGELOG_GITHUB_TOKEN=${CHANGELOG_GITHUB_TOKEN} \
 		ferrarimarco/github-changelog-generator:${CHANGELOG_GENERATOR_VERSION} \
 			--user insidieux \
 			--project inizio \
