@@ -21,6 +21,7 @@ const (
 	fileNameDockerfile   = "Dockerfile"
 	fileNameMakefile     = "Makefile"
 	fileNameDockerIgnore = ".dockerignore"
+	fileNameGolangCI     = ".golangci.yml"
 )
 
 type (

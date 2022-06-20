@@ -205,33 +205,37 @@ func (s *layoutGeneratorTestSuite) TestPrepareFilesList() {
 	gen := NewGenerator(nil, nil)
 	items := gen.prepareFilesList(s.options, s.values)
 	s.NotEmpty(items)
-	s.Len(items, 6)
+	s.Len(items, 7)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameGoMod), items[0].writePath)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, subPathMainGo, strings.ToLower(s.values.Application.Name), fileNameMainGo), items[1].writePath)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameReadmeMD), items[2].writePath)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameDockerIgnore), items[3].writePath)
-	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameMakefile), items[4].writePath)
-	s.Equal(filepath.Join(s.options.WorkingDirectory, subPathDockerfile, strings.ToLower(s.values.Application.Name), fileNameDockerfile), items[5].writePath)
-	s.Equal(fmt.Sprintf(`%s.%s`, fileNameMakefile, Extension), items[4].readPath)
-	s.Equal(fmt.Sprintf(`%s.%s`, fileNameDockerfile, Extension), items[5].readPath)
+	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameGolangCI), items[4].writePath)
+	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameMakefile), items[5].writePath)
+	s.Equal(filepath.Join(s.options.WorkingDirectory, subPathDockerfile, strings.ToLower(s.values.Application.Name), fileNameDockerfile), items[6].writePath)
+	s.Equal(fileNameGolangCI, items[4].readPath)
+	s.Equal(fmt.Sprintf(`%s.%s`, fileNameMakefile, Extension), items[5].readPath)
+	s.Equal(fmt.Sprintf(`%s.%s`, fileNameDockerfile, Extension), items[6].readPath)
 }
 
 func (s *layoutGeneratorTestSuite) TestPrepareFilesListWithRedefine() {
 	dockerfilePath := `/template/path/Dockerfile.gotmpl`
-	makefilePath := `/template/path/Dockerfile.gotmpl`
+	makefilePath := `/template/path/Makefile.gotmpl`
 
 	gen := NewGenerator(nil, nil, WithTemplateDockerfile(&dockerfilePath), WithTemplateMakefile(&makefilePath))
 	items := gen.prepareFilesList(s.options, s.values)
 	s.NotEmpty(items)
-	s.Len(items, 6)
+	s.Len(items, 7)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameGoMod), items[0].writePath)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, subPathMainGo, strings.ToLower(s.values.Application.Name), fileNameMainGo), items[1].writePath)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameReadmeMD), items[2].writePath)
 	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameDockerIgnore), items[3].writePath)
-	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameMakefile), items[4].writePath)
-	s.Equal(filepath.Join(s.options.WorkingDirectory, subPathDockerfile, strings.ToLower(s.values.Application.Name), fileNameDockerfile), items[5].writePath)
-	s.Equal(dockerfilePath, items[4].readPath)
+	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameGolangCI), items[4].writePath)
+	s.Equal(filepath.Join(s.options.WorkingDirectory, fileNameMakefile), items[5].writePath)
+	s.Equal(filepath.Join(s.options.WorkingDirectory, subPathDockerfile, strings.ToLower(s.values.Application.Name), fileNameDockerfile), items[6].writePath)
+	s.Equal(fileNameGolangCI, items[4].readPath)
 	s.Equal(makefilePath, items[5].readPath)
+	s.Equal(dockerfilePath, items[6].readPath)
 }
 
 func (s *layoutGeneratorTestSuite) TestRunCleanupError() {
@@ -272,7 +276,7 @@ func (s *layoutGeneratorTestSuite) TestRun() {
 	result, err := gen.Run(context.Background(), s.options, s.values)
 	s.NoError(err)
 	s.NotNil(result)
-	s.Len(result, 6)
+	s.Len(result, 7)
 	s.Subset(
 		result,
 		[]string{
@@ -280,6 +284,7 @@ func (s *layoutGeneratorTestSuite) TestRun() {
 			`/working/directory/cmd/application/main.go`,
 			`/working/directory/README.md`,
 			`/working/directory/.dockerignore`,
+			`/working/directory/.golangci.yml`,
 			`/working/directory/Makefile`,
 			`/working/directory/build/docker/cmd/application/Dockerfile`,
 		},

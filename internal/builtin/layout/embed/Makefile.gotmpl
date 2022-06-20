@@ -1,8 +1,8 @@
 override APP_NAME={{ .Application.Name | lower }}
 {{ $version := semver (.Golang.Version | default "1.16") }}override GO_VERSION={{ $version.Major }}.{{ $version.Minor }}
-override GOLANGCI_LINT_VERSION=v1.39.0
-override SECUREGO_GOSEC_VERSION=v2.7.0
-override HADOLINT_VERSION=v2.2.0
+override GOLANGCI_LINT_VERSION=v1.46.2
+override SECUREGO_GOSEC_VERSION=2.12.0
+override HADOLINT_VERSION=v2.10.0
 
 GOOS?=$(shell go env GOOS || echo linux)
 GOARCH?=$(shell go env GOARCH || echo amd64)
@@ -27,14 +27,16 @@ cleanup:
 	@rm ${PWD}/coverage.out || true
 	@rm -r ${PWD}/vendor || true
 
-.PHONY: vendor
-vendor:
-	@rm -r ${PWD}/vendor || true
+.PHONY: tidy
+tidy:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
 		golang:${GO_VERSION} \
 			go mod tidy
+
+.PHONY: vendor
+vendor:
 	@docker run --rm \
 		-v ${PWD}:/project \
 		-w /project \
@@ -48,14 +50,6 @@ lint-golangci-lint:
 		-w /project \
 		golangci/golangci-lint:${GOLANGCI_LINT_VERSION} \
 			golangci-lint run -v
-
-.PHONY: lint-golint
-lint-golint:
-	@docker run --rm \
-		-v ${PWD}:/project \
-		cytopia/golint \
-			--set_exit_status \
-			/project/...
 
 .PHONY: lint-gosec
 lint-gosec:
@@ -77,7 +71,6 @@ lint-dockerfile:
 .PHONY: lint
 lint:
 	@make lint-golangci-lint
-	@make lint-golint
 	@make lint-gosec
 	@make lint-dockerfile
 

@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// NewCommand create cobra.Command for main process
+// NewCommand create cobra.Command for main process.
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           `inizio`,

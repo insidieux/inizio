@@ -5,13 +5,13 @@ import (
 )
 
 type (
-	// RunOptions contains common options for generation process
+	// RunOptions contains common options for generation process.
 	RunOptions struct {
 		Override         bool
 		WorkingDirectory string
 	}
 
-	// RunValues contains information for newly generated project such as RunValuesApplication and RunValuesGolang
+	// RunValues contains information for newly generated project such as RunValuesApplication and RunValuesGolang.
 	RunValues struct {
 		Application RunValuesApplication
 		Golang      RunValuesGolang

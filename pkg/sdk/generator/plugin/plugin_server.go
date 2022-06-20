@@ -25,7 +25,7 @@ func WithContext(ctx context.Context) ServeOption {
 	}
 }
 
-// Serve run plugin implementation as GRPC server
+// Serve run plugin implementation as GRPC server.
 func Serve(implementation generator.Generator, options ...ServeOption) {
 	config := &pluginSDK.ServeConfig{
 		HandshakeConfig: handshakeConfig,
