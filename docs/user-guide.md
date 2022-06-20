@@ -49,7 +49,7 @@ docker run \
   -it \
   -v $(pwd):/project \
   -w /project \
-    insidieux/inizio:v1.1.2 \
+    insidieux/inizio:v1.1.3 \
       path-to-project
 ```
 
